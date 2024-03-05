@@ -24,6 +24,7 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepo.findById(id)
                 .map(productExists -> {
+                    productExists.setCodeAccount(product.getCodeAccount());
                     productExists.setNameAccount(product.getNameAccount());
                     productExists.setCommission(product.getCommission());
                     productExists.setLimitMovement(product.getLimitMovement());
@@ -31,6 +32,7 @@ public class ProductServiceImpl implements ProductService {
                     productExists.setLimitNumberDeposit(product.getLimitNumberDeposit());
                     productExists.setTypeProduct(product.getTypeProduct());
                     productExists.setLimitAccounts(product.getLimitAccounts());
+                    productExists.setLimitTransacctions(product.getLimitTransacctions());
 
                     return productExists;
                 })
