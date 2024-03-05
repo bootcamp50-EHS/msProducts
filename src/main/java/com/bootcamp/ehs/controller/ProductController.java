@@ -14,20 +14,37 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/product")
 public class ProductController {
 
-    private final ProductService producService;
+    private final ProductService productService;
 
     @PostMapping
     public Mono<ResponseEntity<Product>> crearProducto(@RequestBody Product product){
 
-        return producService.createProduct(product)
+        return productService.createProduct(product)
                 .map(e -> ResponseEntity.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(e))
                 .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 
+    @PutMapping("/{id}")
+    public Mono<ResponseEntity<Product>> actualizarProducto(@RequestBody Product product, @PathVariable String id){
+        return productService.findById(id)
+                .flatMap(existingProduct ->
+                        productService.updateProduct(product, id)
+                                .map(updatedProduct -> ResponseEntity.ok()
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .body(updatedProduct))
+                )
+                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+    }
+
     @GetMapping
     public Flux<Product> obteberTodo(){
-        return producService.findAll();
+        return productService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Mono<Product> obtieneId(@PathVariable String id){
+        return productService.findById(id);
     }
 }
