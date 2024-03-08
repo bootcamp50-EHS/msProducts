@@ -12,5 +12,7 @@ public interface ProductService {
 
     Mono<Product> findById(String id);
 
+    Mono<Product> findByCode(String code);
+
     Flux<Product> findAll();
 }
