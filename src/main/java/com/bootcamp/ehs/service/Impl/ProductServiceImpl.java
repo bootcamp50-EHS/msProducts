@@ -28,8 +28,6 @@ public class ProductServiceImpl implements ProductService {
                     productExists.setNameAccount(product.getNameAccount());
                     productExists.setCommission(product.getCommission());
                     productExists.setLimitMovement(product.getLimitMovement());
-                    productExists.setLimitNumberWithdrawal(product.getLimitNumberWithdrawal());
-                    productExists.setLimitNumberDeposit(product.getLimitNumberDeposit());
                     productExists.setTypeProduct(product.getTypeProduct());
                     productExists.setLimitAccounts(product.getLimitAccounts());
                     productExists.setLimitTransacctions(product.getLimitTransacctions());
@@ -42,6 +40,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Mono<Product> findById(String id) {
         return productRepo.findById(id);
+    }
+
+    @Override
+    public Mono<Product> findByCode(String codeAccount) {
+        return productRepo.findByCodeAccount(codeAccount);
     }
 
     @Override

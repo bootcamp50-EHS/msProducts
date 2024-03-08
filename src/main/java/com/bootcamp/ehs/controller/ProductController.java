@@ -47,4 +47,9 @@ public class ProductController {
     public Mono<Product> obtieneId(@PathVariable String id){
         return productService.findById(id);
     }
+
+    @GetMapping("/bycode/{codeAccount}")
+    public  Mono<Product> getProductByCode(@PathVariable("codeAccount") String codeAccount){
+        return productService.findByCode(codeAccount);
+    }
 }
