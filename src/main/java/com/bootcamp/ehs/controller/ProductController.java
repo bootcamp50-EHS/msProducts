@@ -11,12 +11,12 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/product")
+@RequestMapping("/api/product")
 public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping
+    @PostMapping("/create")
     public Mono<ResponseEntity<Product>> crearProducto(@RequestBody Product product){
 
         return productService.createProduct(product)
@@ -26,7 +26,7 @@ public class ProductController {
                 .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public Mono<ResponseEntity<Product>> actualizarProducto(@RequestBody Product product, @PathVariable String id){
         return productService.findById(id)
                 .flatMap(existingProduct ->
@@ -38,17 +38,17 @@ public class ProductController {
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public Flux<Product> obteberTodo(){
         return productService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/list/{id}")
     public Mono<Product> obtieneId(@PathVariable String id){
         return productService.findById(id);
     }
 
-    @GetMapping("/bycode/{codeAccount}")
+    @GetMapping("/list/bycode/{codeAccount}")
     public  Mono<Product> getProductByCode(@PathVariable("codeAccount") String codeAccount){
         return productService.findByCode(codeAccount);
     }
